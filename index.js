@@ -1,32 +1,18 @@
 require("dotenv").config();
+const http = require("http");
+const url = require("url");
 const debug = require("debug")("calc");
 const prompt = require("prompt");
 const { program } = require("commander");
 const chalk = require("chalk");
 const calculadora = require("./calculadora");
 
-prompt.start();
-program.option("-a --numberA <number>");
-program.option("-b --numberB <number>");
-program.parse();
+const requestListener = function (req, res) {
+  res.writeHead(200, { "Content-type": "text/html" });
+  const query = url.parse(req.url, true).query;
+  const text = query.a + query.b;
 
-/* const { numberA, numberB } = program.opts(); 
-
-const result = calculadora(numberA, numberB);
-
-debug(chalk.green(`${numberA} + ${numberB} = ${result[0]}`));
-debug(chalk.red(`${numberA} - ${numberB} = ${result[1]}`));
-debug(chalk.yellow(`${numberA} * ${numberB} = ${result[2]}`));
-debug(chalk.blue(`${numberA} / ${numberB} = ${result[3]}`)); */
-
-const askNumbers = async () => {
-  const { numberA, numberB } = await prompt.get(["numberA", "numberB"]);
-  const result = calculadora(numberA, numberB);
-
-  debug(chalk.green(`${numberA} + ${numberB} = ${result[0]}`));
-  debug(chalk.red(`${numberA} - ${numberB} = ${result[1]}`));
-  debug(chalk.yellow(`${numberA} * ${numberB} = ${result[2]}`));
-  debug(chalk.blue(`${numberA} / ${numberB} = ${result[3]}`));
+  res.end(text);
 };
-
-askNumbers();
+const server = http.createServer(requestListener);
+server.listen(3002);
