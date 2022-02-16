@@ -27,11 +27,17 @@ server.on("request", (request, response) => {
   response.setHeader("Content-type", "text/html");
   response.statusCode = 200;
   response.write(
-    `suma: ${a} + ${b} = ${Number(a) + Number(b)} resta: ${a} - ${b} = ${
+    `<h1>Calculadora</h1>
+    <div>
+    <h2> suma:</h2><p> ${a} + ${b} = ${
+      Number(a) + Number(b)
+    }</p> </div><div><h2> resta:</h2><p> ${a} - ${b} = ${
       Number(a) - Number(b)
-    } multiplicacion:${a} x ${b} = ${
+    }<div><h2> multiplicacion:</h2><p> ${a} x ${b} = ${
       Number(a) * Number(b)
-    } division: ${a} / ${b} = ${Number(a) / Number(b)}
+    }</p> </div> <div><h2> divisionon:</h2><p> ${a} / ${b} = ${
+      Number(a) / Number(b)
+    }</p> </div>
     `
   );
   response.end();
